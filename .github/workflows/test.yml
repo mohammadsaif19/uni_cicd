@@ -14,10 +14,11 @@ jobs:
     # uses: mohammadsaif19/uni_cicd/.github/workflows/main.yml@main
     # with:
     #   flutterVersion: "3.10.6"
+    #   title: "Title Message"
+    #   footer: "Footer message"
+
+    # secrets:
     #   token: "GitHub_TOKEN"
     #   slack_webhook_url: "WEBHOOK_URL.com"
     #   slack_token: "SLACK_TOKEN"
-    #   slack_channel_id: "SLACK_CHANNEL_ID"
-    #   title: "Title Message"
-    #   footer: "Footer message"
     #   slack_channel_id: "SLACK_CHANNEL_ID"
