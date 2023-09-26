@@ -3,72 +3,86 @@ name: "Build, release, and notify to slack workflow"
 on:
   workflow_call:
     inputs:
+      #* Specifing the versio of flutter
       flutterVersion:
         required: false
         type: string
         default: "3.13.5"
 
+      #* Title of the Slack message
+      title:
+        required: false
+        type: string
+        default: "Hello QA Team :wave:, Now it's time to show your magic :magic_wand:"
+
+      #* Footer of the Slack message
+      footer:
+        required: false
+        type: string
+        default: "Release update notify message sent by UniBot"
+
+      #* Github access token of user who have access to the repo
       token:
         required: true
         type: string
 
+      #* Webhook URL of Slack
       slack_webhook_url:
         required: true
         type: string
 
+      #* Token of the Slack Bot app
       slack_token:
         required: true
         type: string
 
+      #* Channel ID to send the message
       slack_channel_id:
         required: true
         type: string
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Build, release, and notify to slack workflow
-        run: echo Hello there! Version:${{inputs.flutterVersion}} Token:${{inputs.token}} Webhook:${{inputs.slack_webhook_url}} Slack Token:${{inputs.slack_token}} Channel Id:${{inputs.slack_channel_id}}
 
     #* Downloading JAVA and checkout the action v1 from github
-    # steps:
-    #   - uses: actions/checkout@v1
-    #   - uses: actions/setup-java@v1
-    #     with:
-    #       java-version: "12.x"
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
 
-    #   #* Downloading flutter to ubuntu machine
-    #   - uses: subosito/flutter-action@v1
-    #     with:
-    #       flutter-version: "3.10.6"
+      #* Downloading flutter to ubuntu machine
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{inputs.flutterVersion}}
 
-    #   #* Building Apk file
-    #   - run: flutter pub get
-    #   - run: flutter build apk
+      #* Building Apk file
+      - run: flutter pub get
+      - run: flutter build apk
 
-    #   #* Release it to artifacts
-    #   - name: Release the apk to artifacts
-    #     uses: ncipollo/release-action@v1
-    #     with:
-    #       artifacts: "build/app/outputs/apk/release/*"
-    #       tag: v1.0.${{ github.run_number }}
-    #       token: ${{ secrets.TOKEN }}
+      #* Release it to artifacts
+      - name: Release the apk to artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{inputs.token}}
 
-    #   #* Sending Slack message to channcel
-    #   - name: Notify Slack on new release
-    #     uses: rtCamp/action-slack-notify@v2
-    #     env:
-    #       SLACK_COLOR: ${{ job.status }}
-    #       SLACK_USERNAME: uniBot
-    #       SLACK_TITLE: "Hello QA Team :wave:, Now it's time to show your magic :magic_wand:"
-    #       SLACK_MESSAGE: New Release from *${{ github.event.repository.name }}* project by *${{ github.event.head_commit.committer.name }}* and release note is `${{ github.event.head_commit.message }}` is now available to test.
-    #       SLACK_FOOTER: "Release update notify message sent by UniBot"
-    #       MSG_MINIMAL: event,commit
-    #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #* Sending Slack message to channcel
+      - name: Notify Slack on new release
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_USERNAME: uniBot
+          SLACK_TITLE: ${{inputs.title}}
+          SLACK_MESSAGE: New Release from *${{ github.event.repository.name }}* project by *${{ github.event.head_commit.committer.name }}* and release note is `${{ github.event.head_commit.message }}` is now available to test.
+          SLACK_FOOTER: ${{inputs.footer}}
+          MSG_MINIMAL: event,commit
+          SLACK_WEBHOOK: ${{inputs.slack_webhook_url}}
 
-    #   #* Uploading apk to Slack channcel
-    #   - uses: MeilCli/slack-upload-file@v3
-    #     with:
-    #       slack_token: ${{ secrets.SLACK_TOKEN }}
-    #       channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-    #       file_path: "build/app/outputs/apk/release/app-release.apk"
+      #* Uploading apk to Slack channcel
+      - uses: MeilCli/slack-upload-file@v3
+        with:
+          slack_token: ${{inputs.slack_token}}
+          channel_id: ${{inputs.slack_channel_id}}
+          file_path: "build/app/outputs/apk/release/app-release.apk"
