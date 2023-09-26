@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test Workflow
-        run: echo Hello there! Workflow is called :)
+        run: echo Hello there! Workflow is called ^_^
 
     # uses: mohammadsaif19/uni_cicd/.github/workflows/main.yml@main
     # with:
