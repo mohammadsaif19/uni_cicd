@@ -8,13 +8,11 @@ on:
         required: false
         type: string
         default: "3.13.5"
-
       #* Title of the Slack message
       title:
         required: false
         type: string
         default: "Hello QA Team :wave:, Now it's time to show your magic :magic_wand:"
-
       #* Footer of the Slack message
       footer:
         required: false
@@ -26,22 +24,22 @@ on:
       #* Github access token of user who have access to the repo
       token:
         required: true
-        type: string
+        # type: string
 
       #* Webhook URL of Slack
       slack_webhook_url:
         required: true
-        type: string
+        # type: string
 
       #* Token of the Slack Bot app
       slack_token:
         required: true
-        type: string
+        # type: string
 
       #* Channel ID to send the message
       slack_channel_id:
         required: true
-        type: string
+        # type: string
 jobs:
   build:
     runs-on: ubuntu-latest
