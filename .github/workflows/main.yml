@@ -6,7 +6,7 @@ on:
       flutterVersion:
         required: false
         type: string
-        default: "1.0.5"
+        default: "3.13.5"
 
       token:
         required: true
