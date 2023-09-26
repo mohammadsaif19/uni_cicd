@@ -1,0 +1,9 @@
+name: "Workflow"
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run-cicd-workflow:
+    uses: mohammadsaif19/rep/.github/workflows/main.yml@main

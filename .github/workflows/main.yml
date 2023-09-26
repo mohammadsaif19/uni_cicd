@@ -1,0 +1,73 @@
+name: "Build, release, and notify to slack workflow"
+
+on:
+  workflow_call:
+    inputs:
+      flutterVersion:
+        required: false
+        type: string
+
+      token:
+        required: true
+        type: string
+
+      slack_webhook_url:
+        required: true
+        type: string
+
+      slack_token:
+        required: true
+        type: string
+
+      slack_channel_id:
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build, release, and notify to slack workflow
+        run: echo Hello there! Version:${{inputs.flutterVersion}} Token:${{inputs.token}} Webhook:${{inputs.slack_webhook_url}} Slack Token:${{inputs.slack_token}} Channel Id:${{inputs.slack_channel_id}}
+
+    #* Downloading JAVA and checkout the action v1 from github
+    # steps:
+    #   - uses: actions/checkout@v1
+    #   - uses: actions/setup-java@v1
+    #     with:
+    #       java-version: "12.x"
+
+    #   #* Downloading flutter to ubuntu machine
+    #   - uses: subosito/flutter-action@v1
+    #     with:
+    #       flutter-version: "3.10.6"
+
+    #   #* Building Apk file
+    #   - run: flutter pub get
+    #   - run: flutter build apk
+
+    #   #* Release it to artifacts
+    #   - name: Release the apk to artifacts
+    #     uses: ncipollo/release-action@v1
+    #     with:
+    #       artifacts: "build/app/outputs/apk/release/*"
+    #       tag: v1.0.${{ github.run_number }}
+    #       token: ${{ secrets.TOKEN }}
+
+    #   #* Sending Slack message to channcel
+    #   - name: Notify Slack on new release
+    #     uses: rtCamp/action-slack-notify@v2
+    #     env:
+    #       SLACK_COLOR: ${{ job.status }}
+    #       SLACK_USERNAME: uniBot
+    #       SLACK_TITLE: "Hello QA Team :wave:, Now it's time to show your magic :magic_wand:"
+    #       SLACK_MESSAGE: New Release from *${{ github.event.repository.name }}* project by *${{ github.event.head_commit.committer.name }}* and release note is `${{ github.event.head_commit.message }}` is now available to test.
+    #       SLACK_FOOTER: "Release update notify message sent by UniBot"
+    #       MSG_MINIMAL: event,commit
+    #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    #   #* Uploading apk to Slack channcel
+    #   - uses: MeilCli/slack-upload-file@v3
+    #     with:
+    #       slack_token: ${{ secrets.SLACK_TOKEN }}
+    #       channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+    #       file_path: "build/app/outputs/apk/release/app-release.apk"
