@@ -11,6 +11,7 @@ jobs:
       - name: Test Workflow
         run: echo Hello there! Workflow is called ^_^
 
+    #* UNI-CI/CD
     # uses: mohammadsaif19/uni_cicd/.github/workflows/main.yml@main
     # with:
     #   flutterVersion: "3.10.6"
@@ -22,3 +23,11 @@ jobs:
     #   slack_webhook_url: "WEBHOOK_URL.com"
     #   slack_token: "SLACK_TOKEN"
     #   slack_channel_id: "SLACK_CHANNEL_ID"
+
+    #* Slack notifier
+    # uses: mohammadsaif19/uni_cicd/.github/workflows/slack.yml@main
+    # with:
+    #   footer: "Please visit this url to test the latest release https://asz-sa.netlify.app/"
+
+    # secrets:
+    #   slack_webhook_url: "WEBHOOK_URL.com"
