@@ -25,11 +25,17 @@ on:
         type: string
         default: flutter build apk
 
-      #* Specifing the build path of apk from flutter
-      buildPath:
+      #* Specifing the build path of release from flutter
+      buildReleasePath:
         required: false
         type: string
-        default: "build/app/outputs/apk/release/*"
+        default: "build/app/outputs/apk/release"
+
+      #* Specifing apk name from release
+      releaseApkName:
+        required: false
+        type: string
+        default: "app-release.apk"
 
     #* Secrets tokens to perform the action
     secrets:
@@ -76,7 +82,7 @@ jobs:
       - name: Release the apk to artifacts
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ${{inputs.buildPath}}
+          artifacts: ${{inputs.buildReleasePath}}/*
           tag: v1.0.${{ github.run_number }}
           token: ${{secrets.token}}
 
@@ -97,4 +103,4 @@ jobs:
         with:
           slack_token: ${{secrets.slack_token}}
           channel_id: ${{secrets.slack_channel_id}}
-          file_path: "build/app/outputs/apk/release/app-release.apk"
+          file_path: ${{inputs.buildReleasePath}}/${{inputs.releaseApkName}}
